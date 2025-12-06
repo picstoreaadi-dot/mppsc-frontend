@@ -319,7 +319,8 @@ const accuracyPercentage = computed(() => {
 })
 
 const testTypeFormatted = computed(() => {
-  if (!testResult.value?.test_type) return ''
+  const result = testResult.value as any
+  if (!result?.test_type) return ''
   const types: Record<string, string> = {
     'full_length_test': 'Full Length Test',
     'topic_test': 'Topic Test',
@@ -327,12 +328,13 @@ const testTypeFormatted = computed(() => {
     'weak_area_test': 'Weak Area Test',
     'ai_generated': 'AI Generated Test'
   }
-  return types[testResult.value.test_type] || testResult.value.test_type
+  return types[result.test_type] || result.test_type
 })
 
 const topicFormatted = computed(() => {
-  if (!testResult.value?.topic) return ''
-  const topic = TOPICS.find((t: any) => t.id === testResult.value.topic)
+  const result = testResult.value as any
+  if (!result?.topic) return ''
+  const topic = TOPICS.find((t: any) => t.id === result.topic)
   if (!topic) return ''
   return `- ${language.value === 'hi' ? topic.name_hi : topic.name_en}`
 })
@@ -369,8 +371,9 @@ const topicBreakdown = computed(() => {
 })
 
 const questionsWithAnswers = computed(() => {
-  if (!testResult.value?.questions_with_answers) return []
-  return testResult.value.questions_with_answers
+  const result = testResult.value as any
+  if (!result?.questions_with_answers) return []
+  return result.questions_with_answers
 })
 
 // Helper function to get explanation from the correct path

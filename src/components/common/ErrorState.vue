@@ -64,7 +64,7 @@
       <!-- Actions -->
       <div class="error-state__actions">
         <button
-          v-if="retryable && onRetry"
+          v-if="retryable && typeof onRetry === 'function'"
           class="error-state__button error-state__button--primary"
           :disabled="isRetrying"
           @click="handleRetry"

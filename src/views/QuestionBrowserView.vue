@@ -81,8 +81,8 @@
           :key="question.id"
           style="background: #1e293b; border-radius: 1rem; padding: 1.5rem; box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.3); cursor: pointer; transition: transform 0.2s;"
           @click="viewQuestion(question)"
-          @mouseover="$event.currentTarget.style.transform = 'translateY(-2px)'"
-          @mouseout="$event.currentTarget.style.transform = 'translateY(0)'"
+          @mouseover="($event.currentTarget as HTMLElement).style.transform = 'translateY(-2px)'"
+          @mouseout="($event.currentTarget as HTMLElement).style.transform = 'translateY(0)'"
         >
           <div style="display: flex; align-items: flex-start; justify-content: space-between; margin-bottom: 0.75rem;">
             <span style="padding: 0.25rem 0.75rem; border-radius: 9999px; font-size: 0.75rem; font-weight: 600; background: rgba(59, 130, 246, 0.2); color: #93c5fd;">
@@ -114,8 +114,8 @@
           v-if="hasMore"
           @click="loadMore"
           style="width: 100%; padding: 1rem; background: rgba(59, 130, 246, 0.1); border: 2px solid #3b82f6; border-radius: 0.75rem; color: #93c5fd; font-weight: 600; cursor: pointer; transition: all 0.2s;"
-          @mouseover="$event.currentTarget.style.background = 'rgba(59, 130, 246, 0.2)'"
-          @mouseout="$event.currentTarget.style.background = 'rgba(59, 130, 246, 0.1)'"
+          @mouseover="($event.currentTarget as HTMLElement).style.background = 'rgba(59, 130, 246, 0.2)'"
+          @mouseout="($event.currentTarget as HTMLElement).style.background = 'rgba(59, 130, 246, 0.1)'"
         >
           Load More Questions
         </button>
@@ -188,7 +188,7 @@
 </template>
 
 <script setup lang="ts">
-import { ref, onMounted, computed } from 'vue'
+import { ref, onMounted } from 'vue'
 import { ChevronLeft, Search, Bookmark, ChevronRight, X } from 'lucide-vue-next'
 import LanguageToggle from '@/components/common/LanguageToggle.vue'
 import api from '@/services/api'
@@ -240,7 +240,8 @@ async function loadQuestions() {
 async function loadBookmarks() {
   try {
     const bookmarks = await api.getBookmarks()
-    bookmarkedQuestions.value = new Set(bookmarks.map((b: any) => b.question_id))
+    const bookmarkItems = Array.isArray(bookmarks) ? bookmarks : (bookmarks as any).items || []
+    bookmarkedQuestions.value = new Set(bookmarkItems.map((b: any) => b.question_id))
   } catch (error) {
     console.error('Failed to load bookmarks:', error)
   }
@@ -300,7 +301,7 @@ function getOptions(question: any) {
 }
 
 function getOptionLetter(index: number): string {
-  return ['A', 'B', 'C', 'D'][index]
+  return ['A', 'B', 'C', 'D'][index] || 'A'
 }
 </script>
 

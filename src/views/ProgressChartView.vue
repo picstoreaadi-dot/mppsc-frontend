@@ -18,7 +18,7 @@
           <button
             v-for="period in ['weekly', 'monthly', 'quarterly']"
             :key="period"
-            @click="selectedPeriod = period; loadData()"
+            @click="selectedPeriod = period as 'weekly' | 'monthly' | 'quarterly'; loadData()"
             :style="{
               padding: '0.5rem 1rem',
               borderRadius: '9999px',
@@ -143,8 +143,8 @@
             :style="{
               background: getActivityColor(day.questions_practiced)
             }"
-            @mouseover="$event.currentTarget.style.transform = 'scale(1.1)'"
-            @mouseout="$event.currentTarget.style.transform = 'scale(1)'"
+            @mouseover="($event.currentTarget as HTMLElement).style.transform = 'scale(1.1)'"
+            @mouseout="($event.currentTarget as HTMLElement).style.transform = 'scale(1)'"
           ></div>
         </div>
         <div v-else style="text-align: center; padding: 3rem 0; color: #94a3b8;">

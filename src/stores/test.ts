@@ -555,7 +555,7 @@ export const useTestStore = defineStore('test', () => {
       // Backend expects: question_id (int), test_question_id (str), answer (str), time_spent_seconds (int)
       const payload = {
         question_id: Number(currentQuestion.value.question.id),  // Convert to int
-        test_question_id: currentQuestion.value.test_question_id || currentQuestion.value.id,
+        test_question_id: (currentQuestion.value as any).test_question_id || currentQuestion.value.id,
         answer: answer.toUpperCase(),  // Ensure uppercase (A, B, C, D)
         time_spent_seconds: Math.floor(currentQuestionState.value?.timeSpent || 0),
       }
@@ -603,7 +603,9 @@ export const useTestStore = defineStore('test', () => {
   function goToNextMarked() {
     const startIndex = currentQuestionIndex.value + 1
     for (let i = startIndex; i < questions.value.length; i++) {
-      const state = questionStates.value.get(questions.value[i].id)
+      const q = questions.value[i]
+      if (!q) continue
+      const state = questionStates.value.get(q.id)
       if (state?.isMarkedForReview) {
         currentQuestionIndex.value = i
         return
@@ -611,7 +613,9 @@ export const useTestStore = defineStore('test', () => {
     }
     // Wrap around
     for (let i = 0; i < startIndex; i++) {
-      const state = questionStates.value.get(questions.value[i].id)
+      const q = questions.value[i]
+      if (!q) continue
+      const state = questionStates.value.get(q.id)
       if (state?.isMarkedForReview) {
         currentQuestionIndex.value = i
         return

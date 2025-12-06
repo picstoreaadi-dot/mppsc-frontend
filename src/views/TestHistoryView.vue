@@ -135,8 +135,8 @@
           position: 'relative',
           border: test.status === 'in_progress' ? '1px solid rgba(59, 130, 246, 0.3)' : 'none'
         }"
-        @mouseover="$event.currentTarget.style.transform = 'translateY(-2px)'"
-        @mouseout="$event.currentTarget.style.transform = 'translateY(0)'"
+        @mouseover="($event.currentTarget as HTMLElement).style.transform = 'translateY(-2px)'"
+        @mouseout="($event.currentTarget as HTMLElement).style.transform = 'translateY(0)'"
       >
         <div style="display: flex; align-items: flex-start; justify-content: space-between; margin-bottom: 1rem;">
           <div style="flex: 1;">
@@ -165,8 +165,8 @@
               v-if="test.status === 'in_progress'"
               @click.stop="handleTestClick(test)"
               style="padding: 0.5rem 1rem; background: linear-gradient(135deg, #3b82f6, #2563eb); border-radius: 9999px; font-size: 0.75rem; font-weight: 700; color: white; border: none; cursor: pointer; display: flex; align-items: center; gap: 0.5rem; box-shadow: 0 4px 6px -1px rgba(59, 130, 246, 0.5); transition: all 0.2s; animation: pulse 2s ease-in-out infinite;"
-              @mouseover="$event.currentTarget.style.transform = 'scale(1.05)'"
-              @mouseout="$event.currentTarget.style.transform = 'scale(1)'"
+              @mouseover="($event.currentTarget as HTMLElement).style.transform = 'scale(1.05)'"
+              @mouseout="($event.currentTarget as HTMLElement).style.transform = 'scale(1)'"
             >
               <Play style="width: 1rem; height: 1rem;" />
               Resume
@@ -262,7 +262,7 @@ async function loadHistory() {
   isLoading.value = true
   currentPage.value = 0
   try {
-    const response: any = await api.client.get('/api/v1/tests/history', {
+    const response: any = await (api as any).client.get('/api/v1/tests/history', {
       params: {
         test_type: filterTestType.value,
         status: filterStatus.value,
@@ -289,7 +289,7 @@ async function loadHistory() {
 async function loadMore() {
   currentPage.value++
   try {
-    const response: any = await api.client.get('/api/v1/tests/history', {
+    const response: any = await (api as any).client.get('/api/v1/tests/history', {
       params: {
         test_type: filterTestType.value,
         status: filterStatus.value,

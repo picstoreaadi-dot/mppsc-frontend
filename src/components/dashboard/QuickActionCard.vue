@@ -2,8 +2,8 @@
   <div
     @click="$emit('click')"
     style="background: #1e293b; border-radius: 1rem; padding: 1.5rem; box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.3); cursor: pointer; transition: all 0.3s; border-left: 4px solid #3b82f6;"
-    @mouseover="$event.currentTarget.style.transform = 'translateY(-4px)'; $event.currentTarget.style.boxShadow = '0 10px 15px -3px rgba(0, 0, 0, 0.4)'"
-    @mouseout="$event.currentTarget.style.transform = 'translateY(0)'; $event.currentTarget.style.boxShadow = '0 4px 6px -1px rgba(0, 0, 0, 0.3)'"
+    @mouseover="($event.currentTarget as HTMLElement).style.transform = 'translateY(-4px)'; ($event.currentTarget as HTMLElement).style.boxShadow = '0 10px 15px -3px rgba(0, 0, 0, 0.4)'"
+    @mouseout="($event.currentTarget as HTMLElement).style.transform = 'translateY(0)'; ($event.currentTarget as HTMLElement).style.boxShadow = '0 4px 6px -1px rgba(0, 0, 0, 0.3)'"
   >
     <div style="display: flex; align-items: start; gap: 1rem;">
       <div style="flex-shrink: 0; width: 3rem; height: 3rem; background: rgba(59, 130, 246, 0.1); border-radius: 0.75rem; display: flex; align-items: center; justify-content: center;">

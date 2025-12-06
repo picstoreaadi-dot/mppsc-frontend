@@ -2,8 +2,8 @@
   <div
     @click="$emit('click')"
     style="background: #0f172a; border: 2px solid #334155; border-radius: 0.75rem; padding: 1.25rem; cursor: pointer; transition: all 0.2s;"
-    @mouseover="$event.currentTarget.style.borderColor = '#3b82f6'"
-    @mouseout="$event.currentTarget.style.borderColor = '#334155'"
+    @mouseover="($event.currentTarget as HTMLElement).style.borderColor = '#3b82f6'"
+    @mouseout="($event.currentTarget as HTMLElement).style.borderColor = '#334155'"
   >
     <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 0.75rem;">
       <h4 style="font-weight: 600; color: white; font-size: 1rem;">

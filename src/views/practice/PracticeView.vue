@@ -19,8 +19,8 @@
         <button
           @click="exitPractice"
           style="padding: 0.5rem; border-radius: 9999px; background: rgba(148, 163, 184, 0.1); border: none; cursor: pointer; transition: all 0.2s;"
-          @mouseover="$event.currentTarget.style.background = 'rgba(148, 163, 184, 0.2)'"
-          @mouseout="$event.currentTarget.style.background = 'rgba(148, 163, 184, 0.1)'"
+          @mouseover="($event.currentTarget as HTMLElement).style.background = 'rgba(148, 163, 184, 0.2)'"
+          @mouseout="($event.currentTarget as HTMLElement).style.background = 'rgba(148, 163, 184, 0.1)'"
         >
           <X style="width: 1.5rem; height: 1.5rem; color: white;" />
         </button>
@@ -46,8 +46,8 @@
         <button
           @click="toggleBookmark"
           style="padding: 0.5rem; border-radius: 9999px; background: rgba(148, 163, 184, 0.1); border: none; cursor: pointer; transition: all 0.2s;"
-          @mouseover="$event.currentTarget.style.background = 'rgba(148, 163, 184, 0.2)'"
-          @mouseout="$event.currentTarget.style.background = 'rgba(148, 163, 184, 0.1)'"
+          @mouseover="($event.currentTarget as HTMLElement).style.background = 'rgba(148, 163, 184, 0.2)'"
+          @mouseout="($event.currentTarget as HTMLElement).style.background = 'rgba(148, 163, 184, 0.1)'"
         >
           <Bookmark
             style="width: 1.5rem; height: 1.5rem;"
@@ -286,8 +286,8 @@
           v-if="currentQuestionIndex === totalQuestions - 1"
           @click="submitPractice"
           style="width: 100%; padding: 1rem; border-radius: 0.75rem; background: #10b981; color: white; font-weight: 700; font-size: 1.125rem; border: none; cursor: pointer; transition: all 0.2s;"
-          @mouseover="$event.currentTarget.style.background = '#059669'"
-          @mouseout="$event.currentTarget.style.background = '#10b981'"
+          @mouseover="($event.currentTarget as HTMLElement).style.background = '#059669'"
+          @mouseout="($event.currentTarget as HTMLElement).style.background = '#10b981'"
         >
           Complete Practice
         </button>
@@ -315,7 +315,7 @@ import {
   Flag,
   Sparkles,
   Brain,
-  Repeat,
+  MessageCircle,
   Clock,
 } from 'lucide-vue-next'
 
@@ -357,6 +357,8 @@ const longPressOption = ref<string | null>(null)
 // Mock bookmark state (in production, sync with backend)
 const isBookmarked = ref(false)
 const isLoading = ref(true)
+const isLoadingAI = ref(false)
+const showExplanationWarningDismissed = ref(false)
 
 onMounted(async () => {
   // Load practice session from route parameter
@@ -423,7 +425,8 @@ const options = computed(() => {
   // Backend returns options as object {"A": "text", "B": "text", "C": "text", "D": "text"}
   // Convert to array ["text", "text", "text", "text"]
   if (opts && typeof opts === 'object' && !Array.isArray(opts)) {
-    return [opts.A, opts.B, opts.C, opts.D].filter(Boolean)
+    const optsObj = opts as unknown as { A?: string; B?: string; C?: string; D?: string }
+    return [optsObj.A, optsObj.B, optsObj.C, optsObj.D].filter(Boolean) as string[]
   }
 
   // If already an array, return as is
@@ -500,8 +503,8 @@ function selectOption(option: string) {
 function isCorrectAnswer(option: string): boolean {
   if (!currentQuestion.value) return false
   // option is now "A", "B", "C", or "D"
-  // correct_answer/predicted_answer should also be "A", "B", "C", or "D"
-  const correctAnswer = currentQuestion.value.question.correct_answer || currentQuestion.value.question.predicted_answer
+  // predicted_answer should also be "A", "B", "C", or "D"
+  const correctAnswer = currentQuestion.value.question.predicted_answer
   return correctAnswer === option
 }
 
@@ -509,7 +512,7 @@ function toggleElimination(option: string) {
   testStore.toggleElimination(option)
 }
 
-function handleLongPressStart(event: TouchEvent, option: string) {
+function handleLongPressStart(_event: TouchEvent, option: string) {
   longPressOption.value = option
   longPressTimer.value = window.setTimeout(() => {
     settingsStore.triggerHaptic('medium')
@@ -533,15 +536,17 @@ function toggleExplanation() {
   testStore.toggleExplanation()
 }
 
-async function getAIExplanation(mode: 'eli5' | 'detailed') {
-  await testStore.getAIExplanation(mode)
+async function getAIExplanation(mode: 'eli5' | 'detailed' | 'hindi') {
+  isLoadingAI.value = true
+  try {
+    await testStore.getAIExplanation(mode)
+  } finally {
+    isLoadingAI.value = false
+  }
   settingsStore.triggerHaptic('light')
 }
 
-function generateSimilar() {
-  // TODO: Generate similar question using AI
-  settingsStore.triggerHaptic('medium')
-}
+// generateSimilar function removed - not currently used
 
 function toggleBookmark() {
   isBookmarked.value = !isBookmarked.value
@@ -550,14 +555,18 @@ function toggleBookmark() {
 
 // Swipe handlers
 function handleTouchStart(event: TouchEvent) {
-  touchStartX.value = event.touches[0].clientX
-  touchStartY.value = event.touches[0].clientY
+  const touch = event.touches[0]
+  if (!touch) return
+  touchStartX.value = touch.clientX
+  touchStartY.value = touch.clientY
 }
 
 function handleTouchMove(event: TouchEvent) {
-  touchCurrentX.value = event.touches[0].clientX
+  const touch = event.touches[0]
+  if (!touch) return
+  touchCurrentX.value = touch.clientX
   const deltaX = touchCurrentX.value - touchStartX.value
-  const deltaY = event.touches[0].clientY - touchStartY.value
+  const deltaY = touch.clientY - touchStartY.value
 
   // Only allow horizontal swipes (not vertical scrolling)
   if (Math.abs(deltaX) > Math.abs(deltaY)) {

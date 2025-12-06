@@ -119,20 +119,23 @@ function updateChart() {
   const data = topicStats.value.map(t => t.accuracy_percentage)
 
   chartInstance.data.labels = labels
-  chartInstance.data.datasets[0].data = data
-  chartInstance.data.datasets[0].label = language.value === 'hi' ? 'आपका प्रदर्शन' : 'Your Performance'
+  if (chartInstance.data.datasets && chartInstance.data.datasets[0]) {
+    chartInstance.data.datasets[0].data = data
+    chartInstance.data.datasets[0].label = language.value === 'hi' ? 'आपका प्रदर्शन' : 'Your Performance'
+  }
 
   if (chartInstance.options.scales?.r) {
-    chartInstance.options.scales.r.ticks = {
-      ...chartInstance.options.scales.r.ticks,
+    const rScale = chartInstance.options.scales.r as any
+    rScale.ticks = {
+      ...rScale.ticks,
       color: darkMode.value ? '#94A3B8' : '#64748B',
     }
-    chartInstance.options.scales.r.grid = {
-      ...chartInstance.options.scales.r.grid,
+    rScale.grid = {
+      ...rScale.grid,
       color: darkMode.value ? '#334155' : '#E2E8F0',
     }
-    chartInstance.options.scales.r.pointLabels = {
-      ...chartInstance.options.scales.r.pointLabels,
+    rScale.pointLabels = {
+      ...rScale.pointLabels,
       color: darkMode.value ? '#E0E0E0' : '#1E293B',
     }
   }

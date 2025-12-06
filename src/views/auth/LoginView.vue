@@ -55,8 +55,8 @@
           :disabled="authStore.isLoading"
           style="width: 100%; padding: 0.75rem; border-radius: 0.75rem; background: #3b82f6; color: white; font-weight: 600; cursor: pointer; border: none; font-size: 1rem; transition: all 0.2s;"
           :style="authStore.isLoading ? 'opacity: 0.5; cursor: not-allowed;' : ''"
-          @mouseover="$event.target.style.background = '#2563eb'"
-          @mouseout="$event.target.style.background = '#3b82f6'"
+          @mouseover="($event.target as HTMLElement).style.background = '#2563eb'"
+          @mouseout="($event.target as HTMLElement).style.background = '#3b82f6'"
         >
           <span v-if="authStore.isLoading">Logging in...</span>
           <span v-else>Login</span>

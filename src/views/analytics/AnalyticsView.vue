@@ -82,8 +82,8 @@
             :key="topic.topic"
             @click="router.push(`/practice/topic/${topic.topic}`)"
             style="background: #1e293b; border-radius: 0.75rem; padding: 1.25rem; cursor: pointer; border: 2px solid transparent; transition: all 0.2s;"
-            @mouseover="$event.currentTarget.style.borderColor = '#ef4444'"
-            @mouseout="$event.currentTarget.style.borderColor = 'transparent'"
+            @mouseover="($event.currentTarget as HTMLElement).style.borderColor = '#ef4444'"
+            @mouseout="($event.currentTarget as HTMLElement).style.borderColor = 'transparent'"
           >
             <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 0.75rem;">
               <h3 style="font-weight: 600; color: white;">{{ topic.topic_name || topic.topic }}</h3>
@@ -119,8 +119,8 @@
             v-for="topic in strongTopics.slice(0, 3)"
             :key="topic.topic"
             style="background: #1e293b; border-radius: 0.75rem; padding: 1.25rem; border: 2px solid transparent; transition: all 0.2s;"
-            @mouseover="$event.currentTarget.style.borderColor = '#10b981'"
-            @mouseout="$event.currentTarget.style.borderColor = 'transparent'"
+            @mouseover="($event.currentTarget as HTMLElement).style.borderColor = '#10b981'"
+            @mouseout="($event.currentTarget as HTMLElement).style.borderColor = 'transparent'"
           >
             <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 0.75rem;">
               <h3 style="font-weight: 600; color: white;">{{ topic.topic_name || topic.topic }}</h3>
@@ -208,8 +208,8 @@
                 background: getActivityColor(day.questions_practiced || 0),
                 transform: 'scale(1)'
               }"
-              @mouseover="$event.currentTarget.style.transform = 'scale(1.1)'"
-              @mouseout="$event.currentTarget.style.transform = 'scale(1)'"
+              @mouseover="($event.currentTarget as HTMLElement).style.transform = 'scale(1.1)'"
+              @mouseout="($event.currentTarget as HTMLElement).style.transform = 'scale(1)'"
             >
               <span style="font-size: 0.75rem; font-weight: 600; color: white; opacity: 0.8;">{{ new Date(day.date).getDate() }}</span>
             </div>

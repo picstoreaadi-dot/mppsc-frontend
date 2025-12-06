@@ -202,7 +202,7 @@ const loadingText = computed(() => {
 
 function getRandomWidth(seed: number): string {
   const widths = ['100%', '90%', '75%', '85%', '60%']
-  return widths[seed % widths.length]
+  return widths[seed % widths.length] || '100%'
 }
 </script>
 

@@ -38,8 +38,8 @@
         v-if="weakestTopic"
         @click="startWeakAreaPractice"
         style="background: linear-gradient(to bottom right, #3b82f6, #1d4ed8); color: white; border-radius: 1rem; padding: 2rem; box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.3); margin-bottom: 2rem; cursor: pointer; transition: transform 0.3s;"
-        @mouseover="$event.currentTarget.style.transform = 'scale(1.02)'"
-        @mouseout="$event.currentTarget.style.transform = 'scale(1)'"
+        @mouseover="($event.currentTarget as HTMLElement).style.transform = 'scale(1.02)'"
+        @mouseout="($event.currentTarget as HTMLElement).style.transform = 'scale(1)'"
       >
         <div style="display: flex; align-items: start; gap: 1.5rem;">
           <div style="flex-shrink: 0;">
@@ -137,8 +137,7 @@
               date: new Date(test.started_at || test.created_at).toLocaleDateString(),
               questions: test.total_questions || 0,
               answered: test.attempted_questions || 0,
-              score: test.score || 0,
-              status: test.status || 'in_progress'
+              score: test.score || 0
             }"
             @click="viewTestResult(test.id)"
           />
@@ -170,7 +169,6 @@ const router = useRouter()
 const authStore = useAuthStore()
 
 const isLoading = ref(false)
-const showDailyVitamin = ref(true)
 const showPracticeModal = ref(false)
 
 // Import API

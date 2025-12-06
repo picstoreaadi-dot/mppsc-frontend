@@ -9,8 +9,8 @@
           <button
             @click="$router.back()"
             style="padding: 0.5rem; border-radius: 0.5rem; background: rgba(59, 130, 246, 0.1); border: none; cursor: pointer; transition: all 0.2s;"
-            @mouseover="$event.currentTarget.style.background = 'rgba(59, 130, 246, 0.2)'"
-            @mouseout="$event.currentTarget.style.background = 'rgba(59, 130, 246, 0.1)'"
+            @mouseover="($event.currentTarget as HTMLElement).style.background = 'rgba(59, 130, 246, 0.2)'"
+            @mouseout="($event.currentTarget as HTMLElement).style.background = 'rgba(59, 130, 246, 0.1)'"
           >
             <ChevronLeft style="width: 1.5rem; height: 1.5rem; color: #3b82f6;" />
           </button>
@@ -40,8 +40,8 @@
               type="text"
               placeholder="Enter your full name"
               style="width: 100%; padding: 0.75rem 1rem; border-radius: 0.75rem; border: 2px solid #334155; background: #0f172a; color: #e0e0e0;"
-              @focus="$event.target.style.borderColor = '#3b82f6'"
-              @blur="$event.target.style.borderColor = '#334155'"
+              @focus="($event.target as HTMLElement).style.borderColor = '#3b82f6'"
+              @blur="($event.target as HTMLElement).style.borderColor = '#334155'"
             />
           </div>
 
@@ -67,8 +67,8 @@
               type="tel"
               placeholder="Enter your phone number"
               style="width: 100%; padding: 0.75rem 1rem; border-radius: 0.75rem; border: 2px solid #334155; background: #0f172a; color: #e0e0e0;"
-              @focus="$event.target.style.borderColor = '#3b82f6'"
-              @blur="$event.target.style.borderColor = '#334155'"
+              @focus="($event.target as HTMLElement).style.borderColor = '#3b82f6'"
+              @blur="($event.target as HTMLElement).style.borderColor = '#334155'"
             />
           </div>
 
@@ -79,8 +79,8 @@
             <select
               v-model="preferredLanguage"
               style="width: 100%; padding: 0.75rem 1rem; border-radius: 0.75rem; border: 2px solid #334155; background: #0f172a; color: #e0e0e0; cursor: pointer;"
-              @focus="$event.target.style.borderColor = '#3b82f6'"
-              @blur="$event.target.style.borderColor = '#334155'"
+              @focus="($event.target as HTMLElement).style.borderColor = '#3b82f6'"
+              @blur="($event.target as HTMLElement).style.borderColor = '#334155'"
             >
               <option value="en">English</option>
               <option value="hi">हिंदी (Hindi)</option>
@@ -116,8 +116,8 @@
                 type="password"
                 placeholder="Enter current password"
                 style="width: 100%; padding: 0.75rem 1rem; border-radius: 0.75rem; border: 2px solid #334155; background: #0f172a; color: #e0e0e0;"
-                @focus="$event.target.style.borderColor = '#3b82f6'"
-                @blur="$event.target.style.borderColor = '#334155'"
+                @focus="($event.target as HTMLElement).style.borderColor = '#3b82f6'"
+                @blur="($event.target as HTMLElement).style.borderColor = '#334155'"
               />
             </div>
 
@@ -130,8 +130,8 @@
                 type="password"
                 placeholder="Enter new password (min 6 characters)"
                 style="width: 100%; padding: 0.75rem 1rem; border-radius: 0.75rem; border: 2px solid #334155; background: #0f172a; color: #e0e0e0;"
-                @focus="$event.target.style.borderColor = '#3b82f6'"
-                @blur="$event.target.style.borderColor = '#334155'"
+                @focus="($event.target as HTMLElement).style.borderColor = '#3b82f6'"
+                @blur="($event.target as HTMLElement).style.borderColor = '#334155'"
               />
             </div>
 
@@ -144,8 +144,8 @@
                 type="password"
                 placeholder="Confirm new password"
                 style="width: 100%; padding: 0.75rem 1rem; border-radius: 0.75rem; border: 2px solid #334155; background: #0f172a; color: #e0e0e0;"
-                @focus="$event.target.style.borderColor = '#3b82f6'"
-                @blur="$event.target.style.borderColor = '#334155'"
+                @focus="($event.target as HTMLElement).style.borderColor = '#3b82f6'"
+                @blur="($event.target as HTMLElement).style.borderColor = '#334155'"
               />
             </div>
 
@@ -208,7 +208,7 @@ async function saveProfile() {
     const updatedUser = await api.updateProfile({
       full_name: fullName.value,
       phone: phone.value,
-      preferred_language: preferredLanguage.value
+      preferred_language: preferredLanguage.value as 'en' | 'hi'
     })
 
     // Update the auth store

@@ -14,8 +14,8 @@
         <button
           @click="$emit('close')"
           style="padding: 0.5rem; border-radius: 0.5rem; background: rgba(148, 163, 184, 0.1); border: none; cursor: pointer; transition: all 0.2s;"
-          @mouseover="$event.currentTarget.style.background = 'rgba(148, 163, 184, 0.2)'"
-          @mouseout="$event.currentTarget.style.background = 'rgba(148, 163, 184, 0.1)'"
+          @mouseover="($event.currentTarget as HTMLElement).style.background = 'rgba(148, 163, 184, 0.2)'"
+          @mouseout="($event.currentTarget as HTMLElement).style.background = 'rgba(148, 163, 184, 0.1)'"
         >
           <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2">
             <line x1="18" y1="6" x2="6" y2="18"/>
@@ -81,8 +81,8 @@
         <button
           @click="$emit('close')"
           style="flex: 1; padding: 0.75rem; border-radius: 0.75rem; background: #334155; color: white; font-weight: 600; border: none; cursor: pointer; transition: all 0.2s;"
-          @mouseover="$event.currentTarget.style.background = '#475569'"
-          @mouseout="$event.currentTarget.style.background = '#334155'"
+          @mouseover="($event.currentTarget as HTMLElement).style.background = '#475569'"
+          @mouseout="($event.currentTarget as HTMLElement).style.background = '#334155'"
         >
           Cancel
         </button>
@@ -91,8 +91,8 @@
           :disabled="!selectedTopic"
           style="flex: 1; padding: 0.75rem; border-radius: 0.75rem; background: #3b82f6; color: white; font-weight: 600; border: none; cursor: pointer; transition: all 0.2s;"
           :style="{ opacity: !selectedTopic ? '0.5' : '1', cursor: !selectedTopic ? 'not-allowed' : 'pointer' }"
-          @mouseover="selectedTopic && ($event.currentTarget.style.background = '#2563eb')"
-          @mouseout="selectedTopic && ($event.currentTarget.style.background = '#3b82f6')"
+          @mouseover="selectedTopic && (($event.currentTarget as HTMLElement).style.background = '#2563eb')"
+          @mouseout="selectedTopic && (($event.currentTarget as HTMLElement).style.background = '#3b82f6')"
         >
           Start Practice
         </button>
@@ -108,7 +108,7 @@ import { useSettingsStore } from '@/stores/settings'
 import { TOPICS } from '@/types'
 import type { TopicId } from '@/types'
 
-const props = defineProps<{
+defineProps<{
   isOpen: boolean
 }>()
 

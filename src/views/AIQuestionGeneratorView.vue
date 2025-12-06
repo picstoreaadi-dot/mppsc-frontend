@@ -116,8 +116,8 @@
             v-model="keyword"
             :placeholder="language === 'hi' ? 'उदा., संविधान, नदियाँ, अर्थव्यवस्था...' : 'e.g., Constitution, Rivers, Economy...'"
             style="width: 100%; padding: 0.75rem; background: #0f172a; border: 2px solid #334155; border-radius: 0.75rem; color: white; font-size: 0.875rem;"
-            @focus="$event.target.style.borderColor = '#3b82f6'"
-            @blur="$event.target.style.borderColor = '#334155'"
+            @focus="($event.target as HTMLElement).style.borderColor = '#3b82f6'"
+            @blur="($event.target as HTMLElement).style.borderColor = '#334155'"
           />
           <p style="font-size: 0.75rem; color: #94a3b8; margin-top: 0.25rem;">
             {{ language === 'hi' ? 'लक्षित प्रश्न उत्पन्न करने के लिए एक विशिष्ट अवधारणा दर्ज करें' : 'Enter a specific concept to generate targeted questions' }}
@@ -228,8 +228,8 @@
               v-if="!isSubmitted(index) && selectedAnswers[index]"
               @click="submitAnswer(index)"
               style="width: 100%; padding: 0.75rem; background: #3b82f6; color: white; border-radius: 0.5rem; font-weight: 600; border: none; cursor: pointer; margin-bottom: 1rem; transition: all 0.2s;"
-              @mouseover="$event.currentTarget.style.background = '#2563eb'"
-              @mouseout="$event.currentTarget.style.background = '#3b82f6'"
+              @mouseover="($event.currentTarget as HTMLElement).style.background = '#2563eb'"
+              @mouseout="($event.currentTarget as HTMLElement).style.background = '#3b82f6'"
             >
               Submit Answer
             </button>
@@ -290,15 +290,13 @@
 
 <script setup lang="ts">
 import { ref, computed } from 'vue'
-import { useRouter } from 'vue-router'
-import { ChevronLeft, Sparkles, Brain, CheckCircle, Play } from 'lucide-vue-next'
+import { ChevronLeft, Sparkles, Brain, CheckCircle } from 'lucide-vue-next'
 import LanguageToggle from '@/components/common/LanguageToggle.vue'
 import api from '@/services/api'
 import { TOPICS } from '@/types'
 import { useSettingsStore } from '@/stores/settings'
 import { storeToRefs } from 'pinia'
 
-const router = useRouter()
 const settingsStore = useSettingsStore()
 const { language } = storeToRefs(settingsStore)
 
@@ -347,9 +345,8 @@ async function generateQuestions() {
       // Generate bulk questions - uses extended 2 minute timeout
       const response = await api.generateAIQuestions({
         topic: selectedTopic.value as any,
-        num_questions: numQuestions.value,
-        difficulty: difficulty.value,
-        language: language.value
+        count: numQuestions.value,
+        difficulty: difficulty.value as any
       })
       generatedQuestions.value = response.questions || []
     }

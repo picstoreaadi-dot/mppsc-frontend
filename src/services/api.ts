@@ -169,6 +169,7 @@ class RequestQueue {
 
     while (this.queue.length > 0 && navigator.onLine) {
       const request = this.queue[0]
+      if (!request) break
 
       try {
         const response = await axiosInstance.request(request.config)
@@ -429,7 +430,7 @@ class APIClient {
   ): Promise<AxiosResponse> {
     if (this.isRefreshing) {
       // Wait for the refresh to complete
-      return new Promise((resolve, reject) => {
+      return new Promise((resolve, _reject) => {
         this.refreshSubscribers.push((token: string) => {
           originalRequest.headers['Authorization'] = `Bearer ${token}`
           resolve(this.client(originalRequest))

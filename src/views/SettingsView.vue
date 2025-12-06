@@ -134,8 +134,8 @@
           <button
             @click="$router.push('/profile')"
             style="width: 100%; text-align: left; padding: 1rem; border-radius: 0.5rem; background: transparent; border: none; cursor: pointer; transition: all 0.2s; display: flex; align-items: center; justify-content: space-between; color: white;"
-            @mouseover="$event.currentTarget.style.background = 'rgba(148, 163, 184, 0.1)'"
-            @mouseout="$event.currentTarget.style.background = 'transparent'"
+            @mouseover="($event.currentTarget as HTMLElement).style.background = 'rgba(148, 163, 184, 0.1)'"
+            @mouseout="($event.currentTarget as HTMLElement).style.background = 'transparent'"
           >
             <span>Edit Profile</span>
             <ChevronRight style="width: 1.25rem; height: 1.25rem; color: #94a3b8;" />
@@ -144,8 +144,8 @@
           <button
             @click="logout"
             style="width: 100%; text-align: left; padding: 1rem; border-radius: 0.5rem; background: transparent; border: none; cursor: pointer; transition: all 0.2s; color: #ef4444;"
-            @mouseover="$event.currentTarget.style.background = 'rgba(239, 68, 68, 0.1)'"
-            @mouseout="$event.currentTarget.style.background = 'transparent'"
+            @mouseover="($event.currentTarget as HTMLElement).style.background = 'rgba(239, 68, 68, 0.1)'"
+            @mouseout="($event.currentTarget as HTMLElement).style.background = 'transparent'"
           >
             Logout
           </button>

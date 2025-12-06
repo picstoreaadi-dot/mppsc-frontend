@@ -51,8 +51,8 @@
       <button
         @click="$router.push('/dashboard')"
         style="padding: 0.75rem 1.5rem; background: #3b82f6; color: white; border-radius: 0.75rem; font-weight: 600; border: none; cursor: pointer; transition: all 0.2s;"
-        @mouseover="$event.currentTarget.style.background = '#2563eb'"
-        @mouseout="$event.currentTarget.style.background = '#3b82f6'"
+        @mouseover="($event.currentTarget as HTMLElement).style.background = '#2563eb'"
+        @mouseout="($event.currentTarget as HTMLElement).style.background = '#3b82f6'"
       >
         Start Practicing
       </button>
@@ -74,8 +74,8 @@
             :disabled="removingIndex === index"
             style="padding: 0.5rem; border-radius: 0.5rem; background: rgba(239, 68, 68, 0.1); border: none; cursor: pointer; transition: all 0.2s;"
             :style="{ opacity: removingIndex === index ? 0.5 : 1 }"
-            @mouseover="$event.currentTarget.style.background = 'rgba(239, 68, 68, 0.2)'"
-            @mouseout="$event.currentTarget.style.background = 'rgba(239, 68, 68, 0.1)'"
+            @mouseover="($event.currentTarget as HTMLElement).style.background = 'rgba(239, 68, 68, 0.2)'"
+            @mouseout="($event.currentTarget as HTMLElement).style.background = 'rgba(239, 68, 68, 0.1)'"
           >
             <Trash2 style="width: 1.25rem; height: 1.25rem; color: #ef4444;" />
           </button>
@@ -114,7 +114,7 @@
 </template>
 
 <script setup lang="ts">
-import { ref, onMounted, computed } from 'vue'
+import { ref, onMounted } from 'vue'
 import { ChevronLeft, Bookmark, Trash2 } from 'lucide-vue-next'
 import LanguageToggle from '@/components/common/LanguageToggle.vue'
 import { useSettingsStore } from '@/stores/settings'
@@ -236,6 +236,7 @@ async function removeBookmark(index: number) {
   removingIndex.value = index
   try {
     const bookmark = bookmarks.value[index]
+    if (!bookmark) return
     // The API expects question_id, not bookmark id
     await api.removeBookmark(String(bookmark.questionId))
     bookmarks.value.splice(index, 1)

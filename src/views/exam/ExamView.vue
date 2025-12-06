@@ -184,7 +184,7 @@
         <!-- Question Grid -->
         <div class="grid grid-cols-5 gap-3">
           <button
-            v-for="(question, index) in questions"
+            v-for="(_question, index) in questions"
             :key="index"
             @click="goToQuestion(index)"
             class="palette-dot"

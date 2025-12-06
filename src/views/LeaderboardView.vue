@@ -65,8 +65,8 @@
             v-for="(user, index) in topUsers"
             :key="user.user_id || index"
             style="display: flex; align-items: center; gap: 1rem; padding: 1rem; border-radius: 0.75rem; transition: all 0.2s; cursor: pointer;"
-            @mouseover="$event.currentTarget.style.background = 'rgba(148, 163, 184, 0.1)'"
-            @mouseout="$event.currentTarget.style.background = 'transparent'"
+            @mouseover="($event.currentTarget as HTMLElement).style.background = 'rgba(148, 163, 184, 0.1)'"
+            @mouseout="($event.currentTarget as HTMLElement).style.background = 'transparent'"
           >
             <div style="font-size: 1.5rem; font-weight: 700; color: #94a3b8; width: 3rem;">
               {{ user.rank || (index + 1) }}
@@ -103,7 +103,7 @@ const isLoading = ref(true)
 async function loadLeaderboard() {
   isLoading.value = true
   try {
-    const data = await api.getLeaderboard(selectedPeriod.value as any)
+    const data = await api.getLeaderboard(selectedPeriod.value as any) as any
     // Handle both old array format and new object format
     if (Array.isArray(data)) {
       topUsers.value = data

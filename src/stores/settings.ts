@@ -4,7 +4,7 @@
 // ============================================================================
 
 import { defineStore } from 'pinia'
-import { ref, computed, watch } from 'vue'
+import { ref, watch } from 'vue'
 import type { Language } from '@/types'
 import { useAuthStore } from './auth'
 
