@@ -479,7 +479,17 @@ export const useTestStore = defineStore('test', () => {
     startTimer()
   }
 
-  function selectOption(option: string) {
+  function selectOption(questionId: string | number, option: string) {
+    // Safety check: Is this the current question?
+    // This prevents race conditions where clicks on the previous screen register on the next question
+    if (!currentQuestion.value) return
+
+    // Loose comparison because ID might be number vs string
+    if (currentQuestion.value.id != questionId) {
+      console.warn(`[TestStore] Ignored answer for question ${questionId} while on ${currentQuestion.value.id}`)
+      return
+    }
+
     if (!currentQuestionState.value) return
 
     const settingsStore = useSettingsStore()

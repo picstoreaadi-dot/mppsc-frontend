@@ -490,7 +490,9 @@ function getOptionLetter(index: number): string {
 
 function selectOption(option: string) {
   console.log('[PracticeView] selectOption called with:', option)
-  testStore.selectOption(option)
+  if (currentQuestion.value) {
+    testStore.selectOption(currentQuestion.value.id, option)
+  }
   showFeedback.value = true
   settingsStore.playSound(isCorrectAnswer(option) ? 'correct' : 'incorrect')
 
